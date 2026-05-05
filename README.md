@@ -1,21 +1,25 @@
 # Gonzalo Rodriguez Terron Portfolio
 
-Static portfolio generated from the provided CV, with visual direction adapted from `https://www.kree8.studio/`.
+Vue and Tailwind portfolio generated from the provided CV, with visual direction adapted from `https://www.kree8.studio/`.
 
-## Files
+## Project Structure
 
-- `index.html` - single-page portfolio content and structure
-- `styles.css` - responsive layout and visual system
-- `scripts.js` - active sidebar state and desktop smooth scrolling
-- `assets/` - generated bitmap project previews and social image
+- `src/App.vue` - portfolio content, section data, navigation behavior and responsive menu state
+- `src/main.js` - Vue entry point
+- `styles.css` - current visual system, wired through Tailwind/PostCSS
+- `assets/` - logos, project screenshots, pins, tape, clips and social preview image
 
 ## Local Preview
 
-Run a local server from this folder:
-
 ```sh
-python3 -m http.server 8080
+npm install
+npm run dev
 ```
 
 Then open `http://127.0.0.1:8080/`.
-# personal-portfolio
+
+## Production Build
+
+```sh
+npm run build
+```
