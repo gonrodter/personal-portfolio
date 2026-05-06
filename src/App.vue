@@ -13,7 +13,14 @@ const assetMap = {
   "burntab-site.png": new URL("../assets/burntab-site.png", import.meta.url).href,
   "powerpool-site.png": new URL("../assets/powerpool-site.png", import.meta.url).href,
   "tuparty-site.png": new URL("../assets/tuparty-site.png", import.meta.url).href,
-  "doodle-happy-face.svg": new URL("../assets/doodle-happy-face.svg", import.meta.url).href,
+  "happy-face.png": new URL("../assets/happy-face.png", import.meta.url).href,
+  "uxui.png": new URL("../assets/uxui.png", import.meta.url).href,
+  "frontend.png": new URL("../assets/frontend.png", import.meta.url).href,
+  "startup.png": new URL("../assets/startup.png", import.meta.url).href,
+  "founder.png": new URL("../assets/founder.png", import.meta.url).href,
+  "design.png": new URL("../assets/design.png", import.meta.url).href,
+  "react-vue.png": new URL("../assets/react-vue.png", import.meta.url).href,
+  "brackets.png": new URL("../assets/brackets.png", import.meta.url).href,
   "bbva-logo.webp": new URL("../assets/bbva-logo.webp", import.meta.url).href,
   "cambridge-logo.png": new URL("../assets/cambridge-logo.png", import.meta.url).href,
 };
@@ -205,7 +212,8 @@ const contentRef = ref(null);
 const mobileQuery = ref(null);
 let navFrame = 0;
 
-const productWord = computed(() => (isMobile.value ? "DESIGN" : "STARTUP"));
+const productWordImage = computed(() => (isMobile.value ? "design.png" : "startup.png"));
+const productWordAlt = computed(() => (isMobile.value ? "Design" : "Startup"));
 
 function getScrollTop() {
   return isMobile.value ? window.scrollY : contentRef.value?.scrollTop ?? 0;
@@ -423,15 +431,15 @@ onBeforeUnmount(() => {
             <div class="portfolio-wordmark">
               <span class="portfolio-owner">Gonzalo’s</span>
               <h1>Portfolio</h1>
-              <span class="sketch-word word-frontend">UI/UX</span>
-              <span class="sketch-word word-product">{{ productWord }}</span>
-              <span class="sketch-word word-api">FRONTEND</span>
-              <span class="sketch-word word-react">REACT<br />+ VUE</span>
-              <span class="sketch-word word-founder">FOUNDER</span>
-              <span class="sketch-word word-ship">DESIGN</span>
+              <img class="sketch-word word-frontend" :src="asset('uxui.png')" alt="UI/UX" />
+              <img class="sketch-word word-product" :src="asset(productWordImage)" :alt="productWordAlt" />
+              <img class="sketch-word word-api" :src="asset('frontend.png')" alt="Frontend" />
+              <img class="sketch-word word-react" :src="asset('react-vue.png')" alt="React plus Vue" />
+              <img class="sketch-word word-founder" :src="asset('founder.png')" alt="Founder" />
+              <img class="sketch-word word-ship" :src="asset('design.png')" alt="Design" />
 
-              <span class="doodle doodle-braces" aria-hidden="true">{ }</span>
-              <img class="svg-doodle happy-face" :src="asset('doodle-happy-face.svg')" alt="" aria-hidden="true" />
+              <img class="doodle doodle-braces" :src="asset('brackets.png')" alt="" aria-hidden="true" />
+              <img class="svg-doodle happy-face" :src="asset('happy-face.png')" alt="" aria-hidden="true" />
             </div>
 
             <p class="hero-text">
@@ -451,8 +459,7 @@ onBeforeUnmount(() => {
 
         <section id="work" class="section section-observe" data-section="work">
           <div class="section-heading">
-            <p class="eyebrow">Projects</p>
-            <h2>My products and client work</h2>
+            <h2>Projects</h2>
           </div>
 
           <div class="project-grid">
@@ -482,9 +489,8 @@ onBeforeUnmount(() => {
         </section>
 
         <section id="story" class="section story-section section-observe" data-section="story">
-          <div class="story-intro">
-            <p class="eyebrow story-eyebrow">My Story</p>
-            <h2>How I got here</h2>
+          <div class="section-heading">
+            <h2>My Story</h2>
           </div>
           <div class="story-copy">
             <p v-for="paragraph in story" :key="paragraph">{{ paragraph }}</p>
@@ -493,8 +499,7 @@ onBeforeUnmount(() => {
 
         <section id="experience" class="section section-observe" data-section="experience">
           <div class="section-heading">
-            <p class="eyebrow">Experience</p>
-            <h2>From consulting teams to founder-led product work</h2>
+            <h2>Experience</h2>
           </div>
 
           <div class="timeline">
@@ -525,8 +530,7 @@ onBeforeUnmount(() => {
 
         <section id="certifications" class="section certification-section section-observe" data-section="certifications">
           <div class="section-heading">
-            <p class="eyebrow">Certifications</p>
-            <h2>A few things I've picked up along the way</h2>
+            <h2>Certifications</h2>
           </div>
 
           <div class="certification-grid" aria-label="Certifications and recognitions">
@@ -545,8 +549,7 @@ onBeforeUnmount(() => {
 
         <section class="section skill-section">
           <div class="section-heading">
-            <p class="eyebrow">Stack</p>
-            <h2>Tools I commonly use</h2>
+            <h2>Stack</h2>
           </div>
           <div class="skill-cloud" aria-label="Skills">
             <span v-for="skill in skills" :key="skill">{{ skill }}</span>

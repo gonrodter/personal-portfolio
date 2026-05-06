@@ -92,7 +92,7 @@ img {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
+  width: 70px;
   height: 56px;
   border-radius: 8px;
   color: var(--blue-ink);
@@ -282,10 +282,11 @@ img {
 }
 
 .main-panel {
+  --panel-padding-x: 82px;
   width: min(1180px, 100%);
   min-height: calc(100dvh - 86px);
   margin: 0 auto;
-  padding: 88px 82px 54px;
+  padding: 88px var(--panel-padding-x) 54px;
   border: 1px solid rgba(214, 220, 225, 0.7);
   border-radius: 28px;
   background: rgba(244, 246, 248, 0.58);
@@ -396,7 +397,7 @@ h1 span {
   position: relative;
   z-index: 2;
   max-width: none;
-  color: #111316;
+  color: #20252b;
   font-size: 178px;
   font-weight: 900;
   line-height: 0.8;
@@ -405,7 +406,7 @@ h1 span {
 
 .portfolio-owner {
   position: absolute;
-  top: 18px;
+  top: -4px;
   left: 50%;
   z-index: 3;
   color: rgba(66, 69, 74, 0.38);
@@ -428,36 +429,45 @@ h1 span {
 }
 
 .sketch-word {
-  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.56));
+  display: block;
+  width: 98px;
+  height: auto;
+  filter:
+    drop-shadow(0 0 1px rgba(255, 255, 255, 0.62));
 }
 
 .word-frontend {
-  top: 36px;
+  top: 8px;
   left: 36px;
+  width: 116px;
   transform: rotate(-8deg);
 }
 
 .word-product {
-  top: 32px;
+  top: 4px;
   right: 24px;
+  width: 170px;
   transform: rotate(8deg);
 }
 
 .word-api {
-  bottom: 28px;
+  bottom: -8px;
   left: 172px;
+  width: 182px;
   transform: rotate(10deg);
 }
 
 .word-react {
   right: 156px;
-  bottom: 20px;
+  bottom: -18px;
+  width: 160px;
   transform: rotate(-7deg);
 }
 
 .word-founder {
   top: 150px;
   left: -104px;
+  width: 184px;
   transform: rotate(-13deg);
 }
 
@@ -472,6 +482,7 @@ h1 span {
 .word-ship {
   top: 138px;
   right: -88px;
+  width: 156px;
   transform: rotate(13deg);
 }
 
@@ -517,7 +528,7 @@ h1 span {
 .doodle-x.two {
   top: 96px;
   left: 465px;
-  width: 34px;
+  width: 40px;
   height: 34px;
   transform: rotate(8deg);
 }
@@ -604,8 +615,11 @@ h1 span {
 
 .doodle-braces {
   right: 246px;
-  bottom: 68px;
-  font-size: 34px;
+  bottom: 34px;
+  width: 82px;
+  height: auto;
+  filter:
+    drop-shadow(0 0 1px rgba(255, 255, 255, 0.62));
   transform: rotate(10deg);
 }
 
@@ -627,16 +641,18 @@ h1 span {
 }
 
 .svg-doodle.happy-face {
-  top: 102px;
-  left: 268px;
-  width: 46px;
+  top: 70px;
+  left: 228px;
+  width: 70px;
+  filter:
+    drop-shadow(0 0 1px rgba(255, 255, 255, 0.62));
   transform: rotate(-9deg);
 }
 
 .svg-doodle.laptop {
   top: 50px;
   left: 92px;
-  width: 92px;
+  width: 106px;
   transform: rotate(-10deg);
 }
 
@@ -881,7 +897,7 @@ h1 span {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
+  width: 44px;
   height: 30px;
   border-radius: 999px;
   background: var(--ink);
@@ -996,16 +1012,42 @@ h1 span {
 }
 
 .section-heading {
-  display: grid;
-  grid-template-columns: minmax(0, 0.82fr);
-  gap: 18px;
-  align-items: start;
-  margin-bottom: 32px;
-  text-align: left;
+  --section-rule-edge-padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: calc(100% + (var(--panel-padding-x) * 2) - (var(--section-rule-edge-padding) * 2));
+  margin-left: calc((var(--panel-padding-x) * -1) + var(--section-rule-edge-padding));
+  margin-bottom: 28px;
+  text-align: center;
 }
 
-.section-heading h2,
-.story-intro h2,
+.section-heading::before,
+.section-heading::after {
+  content: "";
+  height: 2px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.75);
+}
+
+.section-heading::before {
+  flex: 0 0 calc(var(--panel-padding-x) - var(--section-rule-edge-padding) - 12px);
+}
+
+.section-heading::after {
+  flex: 1 1 auto;
+}
+
+.section-heading h2 {
+  flex: 0 1 auto;
+  margin: 0;
+  color: rgba(66, 69, 74, 0.52);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
 .contact-section h2 {
   font-size: 54px;
   font-weight: 820;
@@ -1065,7 +1107,7 @@ h1 span {
   top: -38px;
   left: 40%;
   z-index: 4;
-  width: 68px;
+  width: 78px;
   height: 56px;
   background: url("assets/red-pin.webp") center / contain no-repeat;
   content: "";
@@ -1327,16 +1369,14 @@ h1 span {
 }
 
 .story-section {
-  display: grid;
-  grid-template-columns: minmax(0, 0.76fr) minmax(280px, 0.62fr);
-  gap: 44px;
-  align-items: start;
+  display: block;
   padding-top: 10px;
 }
 
 .story-copy {
   display: grid;
   gap: 22px;
+  max-width: 880px;
 }
 
 .story-copy p {
@@ -1346,7 +1386,6 @@ h1 span {
 
 .timeline {
   display: grid;
-  border-top: 1px solid var(--line);
 }
 
 .timeline-item {
@@ -1355,6 +1394,10 @@ h1 span {
   gap: 28px;
   padding: 28px 0;
   border-bottom: 1px solid var(--line);
+}
+
+.timeline-item:last-child {
+  border-bottom: 0;
 }
 
 .timeline-date {
@@ -1507,7 +1550,7 @@ h1 span {
   }
 
   .portfolio-owner {
-    top: 24px;
+    top: 4px;
     font-size: 72px;
   }
 
@@ -1531,7 +1574,7 @@ h1 span {
   }
 
   .portfolio-owner {
-    top: 28px;
+    top: 10px;
     font-size: 60px;
   }
 
@@ -1545,6 +1588,14 @@ h1 span {
     bottom: 18px;
     left: 50%;
     transform: translateX(-50%) rotate(-7deg);
+  }
+
+  .word-founder {
+    top: 126px;
+  }
+
+  .word-ship {
+    top: 112px;
   }
 
   .svg-doodle.happy-face {
@@ -1645,7 +1696,7 @@ h1 span {
   }
 
   .portfolio-owner {
-    top: 30px;
+    top: 14px;
     font-size: 52px;
   }
 
@@ -1655,30 +1706,35 @@ h1 span {
   }
 
   .word-frontend {
-    top: 38px;
+    top: 14px;
     left: -28px;
+    width: 96px;
   }
 
   .word-product {
-    top: 34px;
+    top: 10px;
     right: -54px;
+    width: 134px;
   }
 
   .word-api {
-    bottom: 34px;
+    bottom: 6px;
     left: 160px;
+    width: 148px;
   }
 
   .word-react {
     right: auto;
     bottom: 8px;
     left: 50%;
+    width: 130px;
     transform: translateX(-50%) rotate(-7deg);
   }
 
   .word-founder {
-    top: 132px;
+    top: 108px;
     left: -98px;
+    width: 154px;
   }
 
   .word-macos {
@@ -1688,8 +1744,9 @@ h1 span {
   }
 
   .word-ship {
-    top: 124px;
+    top: 100px;
     right: -86px;
+    width: 126px;
   }
 
   .doodle-x.one {
@@ -1725,7 +1782,8 @@ h1 span {
 
   .doodle-braces {
     right: 32%;
-    bottom: 66px;
+    bottom: 34px;
+    width: 78px;
   }
 
   .svg-doodle.flower {
@@ -1737,7 +1795,7 @@ h1 span {
   .svg-doodle.happy-face {
     top: 120px;
     left: 268px;
-    width: 40px;
+    width: 58px;
   }
 
   .svg-doodle.laptop {
@@ -1962,7 +2020,8 @@ h1 span {
 
   .main-panel {
     min-height: auto;
-    padding: 38px 24px 28px;
+    --panel-padding-x: 24px;
+    padding: 38px var(--panel-padding-x) 28px;
     border-radius: 22px;
   }
 
@@ -1991,7 +2050,7 @@ h1 span {
   }
 
   .portfolio-owner {
-    top: 32px;
+    top: 28px;
     font-size: 42px;
   }
 
@@ -2001,18 +2060,21 @@ h1 span {
   }
 
   .word-frontend {
-    top: 36px;
+    top: 18px;
     left: 26px;
+    width: 78px;
   }
 
   .word-product {
-    top: 34px;
-    right: 28px;
+    top: 16px;
+    right: 10px;
+    width: 106px;
   }
 
   .word-react {
     right: 84px;
-    bottom: 30px;
+    bottom: 26px;
+    width: 102px;
   }
 
   .word-macos {
@@ -2087,7 +2149,7 @@ h1 span {
   .svg-doodle.happy-face {
     top: 150px;
     left: 116px;
-    width: 32px;
+    width: 44px;
   }
 
   .svg-doodle.laptop {
@@ -2100,8 +2162,6 @@ h1 span {
     max-width: 520px;
   }
 
-  .section-heading h2,
-  .story-intro h2,
   .contact-section h2 {
     font-size: 38px;
   }
@@ -2254,7 +2314,8 @@ h1 span {
   }
 
   .main-panel {
-    padding: 32px 18px 24px;
+    --panel-padding-x: 18px;
+    padding: 32px var(--panel-padding-x) 24px;
   }
 }
 
@@ -2264,7 +2325,8 @@ h1 span {
   }
 
   .main-panel {
-    padding: 28px 12px 20px;
+    --panel-padding-x: 12px;
+    padding: 28px var(--panel-padding-x) 20px;
   }
 
   h1 {
@@ -2284,7 +2346,7 @@ h1 span {
   }
 
   .portfolio-owner {
-    top: 30px;
+    top: 26px;
     font-size: 31px;
   }
 
@@ -2293,18 +2355,21 @@ h1 span {
   }
 
   .word-frontend {
-    top: 30px;
+    top: 18px;
     left: 8px;
+    width: 62px;
   }
 
   .word-product {
-    top: 28px;
-    right: 6px;
+    top: 16px;
+    right: -8px;
+    width: 84px;
   }
 
   .word-react {
     right: 48px;
-    bottom: 26px;
+    bottom: 22px;
+    width: 82px;
   }
 
   .word-macos {
@@ -2350,7 +2415,7 @@ h1 span {
   .svg-doodle.happy-face {
     top: 128px;
     left: 92px;
-    width: 28px;
+    width: 40px;
   }
 
   .svg-doodle.laptop {
@@ -2359,8 +2424,15 @@ h1 span {
     width: 48px;
   }
 
-  .section-heading h2,
-  .story-intro h2,
+  .section-heading {
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .section-heading h2 {
+    font-size: 12px;
+  }
+
   .contact-section h2 {
     font-size: 32px;
   }
