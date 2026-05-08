@@ -30,6 +30,37 @@ const asset = (file) => assetMap[file];
 const email = "rodriguez.terron.gonzalo@gmail.com";
 const phone = "+34 640 583 966";
 
+const socialLinks = [
+  {
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/in/gonzalorodriguezterron/",
+    iconPath:
+      "M4.98 3.5a2.48 2.48 0 1 1-4.96 0 2.48 2.48 0 0 1 4.96 0ZM.36 8.02h4.28V22H.36V8.02ZM8.03 8.02h4.1v1.9h.06c.57-1.08 1.97-2.22 4.06-2.22 4.34 0 5.14 2.86 5.14 6.57V22h-4.27v-6.85c0-1.63-.03-3.73-2.27-3.73-2.28 0-2.63 1.78-2.63 3.61V22H8.03V8.02Z",
+    viewBox: "0 0 22 22",
+  },
+  {
+    name: "GitHub",
+    href: "https://github.com/gonrodter",
+    iconPath:
+      "M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2.14c-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.74.4-1.25.73-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.25.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.16 1.18A10.96 10.96 0 0 1 12 6.06c.98 0 1.95.13 2.87.39 2.19-1.49 3.15-1.18 3.15-1.18.63 1.58.24 2.75.12 3.04.74.8 1.18 1.83 1.18 3.08 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.13v3.15c0 .31.21.67.79.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z",
+    viewBox: "0 0 24 24",
+  },
+  {
+    name: "X",
+    href: "https://x.com/Terr0nzz",
+    iconPath:
+      "M13.88 10.16 22.51.13h-2.04l-7.5 8.72L6.98.13H.08l9.05 13.17L.08 23.82h2.04l7.92-9.21 6.33 9.21h6.9l-9.39-13.66Zm-2.8 3.26-.92-1.31L2.87 1.67H6l5.89 8.43.92 1.31 7.66 10.97h-3.13l-6.26-8.96Z",
+    viewBox: "0 0 24 24",
+  },
+  {
+    name: "Product Hunt",
+    href: "https://www.producthunt.com/@terr0nzz",
+    iconPath:
+      "M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm1.38 14.36h-2.35v3.4H8.75V6.24h4.63a4.06 4.06 0 0 1 0 8.12Zm0-5.84h-2.35v3.56h2.35a1.78 1.78 0 0 0 0-3.56Z",
+    viewBox: "0 0 24 24",
+  },
+];
+
 const navItems = [
   { id: "top", label: "Home", href: "#top" },
   { id: "work", label: "Projects", href: "#work" },
@@ -211,9 +242,18 @@ const mobileMenuOpen = ref(false);
 const contentRef = ref(null);
 const mobileQuery = ref(null);
 let navFrame = 0;
+let revealObserver = null;
 
 const productWordImage = computed(() => (isMobile.value ? "design.png" : "startup.png"));
 const productWordAlt = computed(() => (isMobile.value ? "Design" : "Startup"));
+const heroOwnerLetters = "Gonzalo’s".split("");
+const heroTitleLetters = "Portfolio".split("");
+const heroOwnerAnimating = ref(false);
+const heroTitleAnimating = ref(false);
+const companyLogosAnimating = ref(false);
+let heroOwnerAnimationTimer = null;
+let heroTitleAnimationTimer = null;
+let companyLogosAnimationTimer = null;
 
 function getScrollTop() {
   return isMobile.value ? window.scrollY : contentRef.value?.scrollTop ?? 0;
@@ -285,6 +325,7 @@ function handleMediaChange(event) {
   if (!event.matches) {
     setMobileMenuOpen(false);
   }
+  setupRevealObserver();
   requestActiveSectionUpdate();
 }
 
@@ -292,6 +333,116 @@ function handleKeydown(event) {
   if (event.key === "Escape") {
     setMobileMenuOpen(false);
   }
+}
+
+function triggerHeroWordAnimation(word) {
+  const isOwner = word === "owner";
+  const animationRef = isOwner ? heroOwnerAnimating : heroTitleAnimating;
+  const existingTimer = isOwner ? heroOwnerAnimationTimer : heroTitleAnimationTimer;
+
+  if (existingTimer) {
+    window.clearTimeout(existingTimer);
+  }
+
+  animationRef.value = false;
+  window.requestAnimationFrame(() => {
+    animationRef.value = true;
+    const timer = window.setTimeout(() => {
+      animationRef.value = false;
+      if (isOwner) {
+        heroOwnerAnimationTimer = null;
+      } else {
+        heroTitleAnimationTimer = null;
+      }
+    }, 1120);
+
+    if (isOwner) {
+      heroOwnerAnimationTimer = timer;
+    } else {
+      heroTitleAnimationTimer = timer;
+    }
+  });
+}
+
+function triggerCompanyLogoAnimation() {
+  if (companyLogosAnimationTimer) {
+    window.clearTimeout(companyLogosAnimationTimer);
+  }
+
+  companyLogosAnimating.value = false;
+  window.requestAnimationFrame(() => {
+    companyLogosAnimating.value = true;
+    companyLogosAnimationTimer = window.setTimeout(() => {
+      companyLogosAnimating.value = false;
+      companyLogosAnimationTimer = null;
+    }, 1080);
+  });
+}
+
+function setupRevealObserver() {
+  revealObserver?.disconnect();
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const targets = Array.from(
+    document.querySelectorAll(
+      [
+        ".section-observe .section-heading",
+        ".hero-sketch > *",
+        ".project-card",
+        ".story-copy p",
+        ".timeline-item",
+        ".certification-card",
+        ".skill-cloud span",
+      ].join(", ")
+    )
+  );
+
+  targets.forEach((target, index) => {
+    target.classList.add("scroll-reveal");
+    target.style.setProperty("--reveal-delay", `${Math.min(index % 8, 7) * 70}ms`);
+  });
+
+  const heroTargets = Array.from(document.querySelectorAll(".hero-sketch > .scroll-reveal"));
+  window.requestAnimationFrame(() => {
+    heroTargets.forEach((target, index) => {
+      window.setTimeout(() => target.classList.add("is-visible"), index * 90);
+    });
+  });
+
+  if (reduceMotion || !targets.length) {
+    targets.forEach((target) => target.classList.add("is-visible"));
+    return;
+  }
+
+  const rootBounds = isMobile.value
+    ? { top: 0, bottom: window.innerHeight }
+    : contentRef.value?.getBoundingClientRect();
+
+  targets.forEach((target) => {
+    const bounds = target.getBoundingClientRect();
+    if (rootBounds && bounds.top < rootBounds.bottom && bounds.bottom > rootBounds.top) {
+      const delay = Number.parseFloat(target.style.getPropertyValue("--reveal-delay")) || 0;
+      window.setTimeout(() => target.classList.add("is-visible"), delay);
+    }
+  });
+
+  revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const delay = Number.parseFloat(entry.target.style.getPropertyValue("--reveal-delay")) || 0;
+        window.setTimeout(() => entry.target.classList.add("is-visible"), delay);
+        revealObserver?.unobserve(entry.target);
+      });
+    },
+    {
+      root: isMobile.value ? null : contentRef.value,
+      rootMargin: "0px 0px -8% 0px",
+      threshold: 0.12,
+    }
+  );
+
+  targets.forEach((target) => revealObserver.observe(target));
 }
 
 onMounted(async () => {
@@ -304,6 +455,7 @@ onMounted(async () => {
   window.addEventListener("scroll", requestActiveSectionUpdate, { passive: true });
   window.addEventListener("resize", requestActiveSectionUpdate);
   window.addEventListener("keydown", handleKeydown);
+  setupRevealObserver();
   setActiveSection();
 });
 
@@ -313,6 +465,10 @@ onBeforeUnmount(() => {
   window.removeEventListener("resize", requestActiveSectionUpdate);
   window.removeEventListener("keydown", handleKeydown);
   mobileQuery.value?.removeEventListener("change", handleMediaChange);
+  revealObserver?.disconnect();
+  if (heroOwnerAnimationTimer) window.clearTimeout(heroOwnerAnimationTimer);
+  if (heroTitleAnimationTimer) window.clearTimeout(heroTitleAnimationTimer);
+  if (companyLogosAnimationTimer) window.clearTimeout(companyLogosAnimationTimer);
   document.body.classList.remove("mobile-menu-open");
   if (navFrame) cancelAnimationFrame(navFrame);
 });
@@ -343,17 +499,37 @@ onBeforeUnmount(() => {
           <a class="sidebar-contact-button" :href="`mailto:${email}`">
             <span>Contact me</span>
           </a>
+          <div class="social-links" aria-label="Social links">
+            <a
+              v-for="link in socialLinks"
+              :key="link.name"
+              class="social-link"
+              :href="link.href"
+              :aria-label="link.name"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <svg aria-hidden="true" :viewBox="link.viewBox" focusable="false">
+                <path :d="link.iconPath" />
+              </svg>
+            </a>
+          </div>
         </nav>
       </div>
 
       <div class="sidebar-bottom">
         <div class="sidebar-companies" aria-label="Companies and projects">
           <p class="rail-label"><span class="rail-label-lighter">Worked with</span> 8+ companies</p>
-          <div class="company-logo-grid">
+          <div
+            class="company-logo-grid"
+            :class="{ 'is-animating': companyLogosAnimating }"
+            @pointerenter="triggerCompanyLogoAnimation"
+          >
             <img
-              v-for="company in companies"
+              v-for="(company, index) in companies"
               :key="company.name"
               :class="{ 'logo-rounded': company.rounded, 'logo-white': company.white }"
+              :style="{ '--logo-index': index }"
               :src="asset(company.file)"
               :alt="company.name"
             />
@@ -400,16 +576,37 @@ onBeforeUnmount(() => {
         <a class="mobile-menu-contact" :href="`mailto:${email}`" @click="setMobileMenuOpen(false)">
           Contact me
         </a>
+        <div class="mobile-social-links" aria-label="Social links">
+          <a
+            v-for="link in socialLinks"
+            :key="link.name"
+            class="social-link"
+            :href="link.href"
+            :aria-label="link.name"
+            target="_blank"
+            rel="noreferrer"
+            @click="setMobileMenuOpen(false)"
+          >
+            <svg aria-hidden="true" :viewBox="link.viewBox" focusable="false">
+              <path :d="link.iconPath" />
+            </svg>
+          </a>
+        </div>
       </div>
 
       <div class="sidebar-bottom">
         <div class="sidebar-companies" aria-label="Companies and projects">
           <p class="rail-label"><span class="rail-label-lighter">Worked with</span> 8+ companies</p>
-          <div class="company-logo-grid">
+          <div
+            class="company-logo-grid"
+            :class="{ 'is-animating': companyLogosAnimating }"
+            @pointerenter="triggerCompanyLogoAnimation"
+          >
             <img
-              v-for="company in companies"
+              v-for="(company, index) in companies"
               :key="company.name"
               :class="{ 'logo-rounded': company.rounded, 'logo-white': company.white }"
+              :style="{ '--logo-index': index }"
               :src="asset(company.file)"
               :alt="company.name"
             />
@@ -429,8 +626,37 @@ onBeforeUnmount(() => {
             </p>
 
             <div class="portfolio-wordmark">
-              <span class="portfolio-owner">Gonzalo’s</span>
-              <h1>Portfolio</h1>
+              <span
+                class="portfolio-owner"
+                :class="{ 'is-animating': heroOwnerAnimating }"
+                aria-label="Gonzalo’s"
+                @pointerenter="triggerHeroWordAnimation('owner')"
+              >
+                <span
+                  v-for="(letter, index) in heroOwnerLetters"
+                  :key="`owner-${letter}-${index}`"
+                  class="hero-title-letter"
+                  :style="{ '--letter-index': index }"
+                  aria-hidden="true"
+                >
+                  {{ letter }}
+                </span>
+              </span>
+              <h1
+                aria-label="Portfolio"
+                :class="{ 'is-animating': heroTitleAnimating }"
+                @pointerenter="triggerHeroWordAnimation('title')"
+              >
+                <span
+                  v-for="(letter, index) in heroTitleLetters"
+                  :key="`${letter}-${index}`"
+                  class="hero-title-letter"
+                  :style="{ '--letter-index': index }"
+                  aria-hidden="true"
+                >
+                  {{ letter }}
+                </span>
+              </h1>
               <img class="sketch-word word-frontend" :src="asset('uxui.png')" alt="UI/UX" />
               <img class="sketch-word word-product" :src="asset(productWordImage)" :alt="productWordAlt" />
               <img class="sketch-word word-api" :src="asset('frontend.png')" alt="Frontend" />
